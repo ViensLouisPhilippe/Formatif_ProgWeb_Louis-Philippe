@@ -24,7 +24,7 @@ namespace Halloween.Controllers
         // GET: Sorcieres
         public async Task<IActionResult> Index()
         {
-            List<Sorciere> ListeSorciere = await _context.Sorcieres.ToListAsync();
+            List<Sorciere> ListeSorciere = await _context.Sorcieres.OrderBy(S => S.Origine).ThenBy(S =>S.Nom).ToListAsync();
 
             return View(ListeSorciere);
         }
@@ -32,8 +32,12 @@ namespace Halloween.Controllers
         // GET: Sorcieres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            Sorcieres_VM sorcieres_VM = new Sorcieres_VM();
-            sorcieres_VM.Sorciere = await _context.Sorcieres.FirstOrDefaultAsync(p => p.Id == id);
+            Sorcieres_VM sorcieres_VM = new Sorcieres_VM
+            {
+                Sorciere = await _context.Sorcieres.FirstOrDefaultAsync(p => p.Id == id),
+                nbrPotion = await _context.Potions.CountAsync(),
+                volumeMoyenPotion = (decimal)_context.Potions.Average(p => p.DetailsPotion.VolumeEnLitre)
+            };
             if (sorcieres_VM.Sorciere == null)
             {
                 return NotFound();
