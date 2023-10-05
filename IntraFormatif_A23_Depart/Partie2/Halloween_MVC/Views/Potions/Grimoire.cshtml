@@ -19,10 +19,15 @@
         </dl>
         <div class="row border-4 border-warning">
             <h5 class="text-primary">Liste des potions</h5>
-            <div class="">
-                @*METTRE LA LISTE DES POTIONS ICI, SEULEMENT LE NOM*@
-               
-            </div>
+            
+                <div class="">
+                @foreach (Potion potion in Model.Potions)
+                {
+                    <partial name="_PotionsGrimoire" model="potion"></partial>
+                }
+                </div>
+            
+            
         </div>
 
     </div>
