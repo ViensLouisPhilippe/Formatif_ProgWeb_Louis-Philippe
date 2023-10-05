@@ -53,7 +53,7 @@ namespace Halloween.Controllers
                 return NotFound();
             }
 
-            var sorciere = await _context.Sorcieres
+            var sorciere = await _context.Sorcieres.Include(P => P.Potions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sorciere == null)
             {
